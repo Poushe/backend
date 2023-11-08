@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% block content%}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for income in show %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{income.name}}</td>
+            <td>{{income.In_amount}}</td>
+            <td>{{income.In_date}}</td>
+          </tr>
+        {% endfor %}
+        <p>Total Balance: {{total_monthly_income.In_amount__sum}}</p>
+    </tbody>
+  </table>
+{%endblock content%}

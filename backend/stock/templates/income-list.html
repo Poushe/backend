@@ -1,0 +1,39 @@
+{% include 'index.html' %}
+{% block content%}
+<form method="POST">
+  {%csrf_token%}
+  <input type="date" name="date-from">
+  <input type="date" name="date-to">
+  <input type="submit" value="Show">
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in show %}
+      <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{i.name}}</td>
+          <td>{{i.In_amount}}</td>
+          <td>{{i.In_date}}</td>
+        </tr>
+      {% endfor %}
+        {% for income in incomelist %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{income.name}}</td>
+            <td>{{income.In_amount}}</td>
+            <td>{{income.In_date}}</td>
+          </tr>
+        {% endfor %}
+        <p>Total Balance: {{total_monthly_income.In_amount__sum}}{{searchincome.In_amount__sum}}</p>
+    </tbody>
+  </table>
+</form>
+{%endblock content%}
