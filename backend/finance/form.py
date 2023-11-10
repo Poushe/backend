@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from stock.models import income, expense
+from finance.models import income, expense
 
 class incomeForm(ModelForm):
     class Meta:

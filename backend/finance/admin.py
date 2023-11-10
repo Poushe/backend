@@ -1,5 +1,6 @@
 from django.contrib import admin
-from stock.models import income
+from finance.models import income, expense
 
 # Register your models here.
 admin.site.register(income),
+admin.site.register(expense),

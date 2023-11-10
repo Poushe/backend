@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .form import incomeForm, expenseForm
 from .models import income, expense
 from django.db.models import Sum
+from django.contrib.auth.models import User
 # Create your views here.
 
 def stock(request):
@@ -13,14 +14,19 @@ def loginrestricted(request):
     return render(request, 'login-restricted.html')
 @login_required(login_url='login')
 def incomeform(request):
+    user_id = request.user.id
     form=incomeForm()
     if request.method=='POST':
         form=incomeForm(request.POST)
         if form.is_valid():
             form.save()
+            user_id = request.user.id
+            form.save()
     context={'form':form}
     return render(request,'income-form.html', context)
 def allincome(request):
+    currentU=request.user
+    print(currentU)
     if request.method=='POST':
         datef=request.POST['date-from']
         datet=request.POST['date-to']
@@ -28,7 +34,7 @@ def allincome(request):
         searchincome=income.objects.filter(In_date__gte=datef, In_date__lte=datet).aggregate(Sum("In_amount"))
         return render(request,'income-list.html',{'show':show,'searchincome':searchincome,'search':search})
     else:
-        incomelist=income.objects.all()
+        incomelist=income.objects.filter(user=currentU).values()
         total_monthly_income = income.objects.aggregate(Sum('In_amount'))
         context={'incomelist':incomelist, 'total_monthly_income':total_monthly_income}
         return render(request, 'income-list.html',context)
